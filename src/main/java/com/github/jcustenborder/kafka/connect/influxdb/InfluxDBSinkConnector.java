@@ -16,6 +16,7 @@
 package com.github.jcustenborder.kafka.connect.influxdb;
 
 import com.github.jcustenborder.kafka.connect.utils.VersionUtil;
+import com.github.jcustenborder.kafka.connect.utils.config.Description;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import org.apache.kafka.common.config.ConfigDef;
@@ -29,6 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Description("The InfluxDBSinkConnector is used to write data from a :term:`Kafka topic`_ to an InfluxDB host. When there " +
+    "are more than one record in a batch that have the same measurement, time, and tags, they will be combined to a single " +
+    "point an written to InfluxDB in a batch.")
 public class InfluxDBSinkConnector extends SinkConnector {
   private static final Logger log = LoggerFactory.getLogger(InfluxDBSinkConnector.class);
 
