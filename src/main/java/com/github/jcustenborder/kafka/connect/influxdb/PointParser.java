@@ -54,29 +54,30 @@ class PointParser {
 
   static final Schema KEY_SCHEMA = SchemaBuilder.struct()
       .name("com.github.jcustenborder.kafka.connect.influxdb.PointKey")
-      .doc("")
+      .doc("This schema represents the :term:`key` that is be written to the Kafka containing the data.")
       .field("measurement", MEASUREMENT_SCHEMA)
       .field("tags", TAGS_SCHEMA)
       .build();
 
   static final Schema POINT_VALUE_SCHEMA = SchemaBuilder.struct()
       .name("com.github.jcustenborder.kafka.connect.influxdb.PointValue")
-      .field("name", Schema.STRING_SCHEMA)
-      .field("type", Schema.STRING_SCHEMA)
-      .field("float64", Schema.OPTIONAL_FLOAT64_SCHEMA)
-      .field("int64", Schema.OPTIONAL_INT64_SCHEMA)
-      .field("boolean", Schema.OPTIONAL_BOOLEAN_SCHEMA)
-      .field("timestamp", Timestamp.builder().optional().build())
-      .field("string", Schema.OPTIONAL_STRING_SCHEMA)
+      .doc("This schema represents a value written to InfluxDB.")
+      .field("name", SchemaBuilder.string().doc("The name of the value").build())
+      .field("type", SchemaBuilder.string().doc("The type of data. This value corresponds to one of fields of this struct.").build())
+      .field("float64", SchemaBuilder.float64().optional().doc("The float64 value for this field.").build())
+      .field("int64", SchemaBuilder.int64().optional().doc("The int64 value for this field.").build())
+      .field("boolean", SchemaBuilder.bool().optional().doc("The boolean value for this field.").build())
+      .field("timestamp", Timestamp.builder().optional().doc("Timestamp value.").build())
+      .field("string", SchemaBuilder.string().optional().doc("String value.").build())
       .build();
 
   static final Schema POINT_VALUE_ARRAY_SCHEMA = SchemaBuilder.array(POINT_VALUE_SCHEMA)
-      .doc("")
+      .doc("The values that were written to InfluxDB.")
       .build();
 
   static final Schema VALUE_SCHEMA = SchemaBuilder.struct()
       .name("com.github.jcustenborder.kafka.connect.influxdb.Point")
-      .doc("")
+      .doc("This schema represents the :term:`value` that is written to Kafka.")
       .field("measurement", MEASUREMENT_SCHEMA)
       .field("tags", TAGS_SCHEMA)
       .field("timestampNano", SchemaBuilder.int64().doc("Timestamp in nanosecond precision.").build())
