@@ -15,7 +15,7 @@
  */
 package com.github.jcustenborder.kafka.connect.influxdb;
 
-import com.github.jcustenborder.kafka.connect.webhook.BaseWebHookConnectorConfig;
+import com.github.jcustenborder.kafka.connect.servlet.BaseWebHookConnectorConfig;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import org.apache.kafka.common.config.ConfigDef;

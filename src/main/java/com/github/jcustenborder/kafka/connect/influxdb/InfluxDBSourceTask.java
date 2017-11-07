@@ -16,7 +16,7 @@
 package com.github.jcustenborder.kafka.connect.influxdb;
 
 import com.github.jcustenborder.kafka.connect.utils.VersionUtil;
-import com.github.jcustenborder.kafka.connect.webhook.BaseWebHookTask;
+import com.github.jcustenborder.kafka.connect.servlet.BaseWebHookTask;
 import com.google.inject.servlet.ServletModule;
 
 import java.util.Map;

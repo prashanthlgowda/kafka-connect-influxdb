@@ -24,20 +24,3 @@ to write data to an InfluxDB host.
     sinks/*
 
 
-.. toctree::
-    :maxdepth: 1
-    :caption: Transformations:
-    :hidden:
-    :glob:
-
-    transformations/*
-
-
-.. toctree::
-    :maxdepth: 0
-    :caption: Schemas:
-    :hidden:
-
-    schemas
-
-
