@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.apache.kafka.connect.source.SourceRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,11 +28,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,6 +84,7 @@ class InfluxDBServlet extends HttpServlet {
     return result;
   }
 
+
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     final String database = request.getParameter("database");
@@ -91,5 +98,16 @@ class InfluxDBServlet extends HttpServlet {
       return;
     }
 
+    PointParser parser = new PointParser(this.config);
+
+    try (InputStream inputStream = request.getInputStream()) {
+      try (Reader reader = new InputStreamReader(inputStream)) {
+        try (BufferedReader bufferedReader = new BufferedReader(reader)) {
+          final List<SourceRecord> points = parser.parse(database, bufferedReader);
+          this.records.addAll(points);
+        }
+      }
+    }
+    response.setStatus(204);
   }
 }
